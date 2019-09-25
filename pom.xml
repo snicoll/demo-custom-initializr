@@ -23,6 +23,7 @@
 
 	<modules>
 		<module>simple-generator</module>
+		<module>simple-service</module>
 	</modules>
 
 	<dependencyManagement>
