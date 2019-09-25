@@ -5,10 +5,16 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import io.spring.initializr.generator.io.IndentingWriterFactory;
+import io.spring.initializr.generator.io.template.MustacheTemplateRenderer;
 import io.spring.initializr.generator.project.DefaultProjectAssetGenerator;
 import io.spring.initializr.generator.project.ProjectAssetGenerator;
 import io.spring.initializr.generator.project.ProjectDescription;
 import io.spring.initializr.generator.project.ProjectGenerator;
+import io.spring.initializr.metadata.InitializrMetadata;
+import io.spring.initializr.metadata.InitializrMetadataBuilder;
+
+import org.springframework.core.io.ClassPathResource;
 
 class SimpleGenerator {
 
@@ -16,7 +22,11 @@ class SimpleGenerator {
 
 	Path generateProject(ProjectDescription description) {
 		ProjectGenerator projectGenerator = new ProjectGenerator((context) -> {
-
+			context.registerBean(InitializrMetadata.class, () -> InitializrMetadataBuilder.create()
+					.withInitializrMetadata(new ClassPathResource("sample-metadata.json")).build());
+			context.registerBean(IndentingWriterFactory.class, IndentingWriterFactory::withDefaultSettings);
+			context.registerBean(MustacheTemplateRenderer.class,
+					() -> new MustacheTemplateRenderer("classpath:/templates"));
 		});
 		ProjectAssetGenerator<Path> projectAssetGenerator = new DefaultProjectAssetGenerator(
 				(resolvedDescription) -> Paths.get("target/projects",

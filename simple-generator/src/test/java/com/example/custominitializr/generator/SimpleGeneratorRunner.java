@@ -8,6 +8,7 @@ import io.spring.initializr.generator.buildsystem.maven.MavenBuildSystem;
 import io.spring.initializr.generator.language.Language;
 import io.spring.initializr.generator.language.java.JavaLanguage;
 import io.spring.initializr.generator.project.MutableProjectDescription;
+import io.spring.initializr.generator.version.Version;
 import io.spring.initializr.generator.version.VersionReference;
 
 public class SimpleGeneratorRunner {
@@ -21,6 +22,8 @@ public class SimpleGeneratorRunner {
 		description.setLanguage(Language.forId(JavaLanguage.ID, "11"));
 		description.addDependency("spring-context", Dependency.withCoordinates("org.springframework", "spring-context")
 				.version(VersionReference.ofValue("5.1.8.RELEASE")));
+		description.setPlatformVersion(Version.parse("2.1.8.RELEASE"));
+		description.setApplicationName("DemoApp");
 
 		SimpleGenerator generator = new SimpleGenerator();
 		Path directory = generator.generateProject(description);
