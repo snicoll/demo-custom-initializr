@@ -16,6 +16,8 @@
 
 package com.example.custominitializr.generator.contributor;
 
+import io.spring.initializr.generator.buildsystem.maven.MavenBuildSystem;
+import io.spring.initializr.generator.condition.ConditionalOnBuildSystem;
 import io.spring.initializr.generator.project.ProjectDescription;
 import io.spring.initializr.generator.project.ProjectGenerationConfiguration;
 
@@ -30,6 +32,7 @@ public class SimpleProjectGenerationConfiguration {
 	}
 
 	@Bean
+	@ConditionalOnBuildSystem(MavenBuildSystem.ID)
 	public MavenBuildProjectContributor simpleMavenBuildContributor(ProjectDescription description) {
 		return new MavenBuildProjectContributor(description);
 	}
