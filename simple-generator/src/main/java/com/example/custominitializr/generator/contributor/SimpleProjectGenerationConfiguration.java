@@ -16,10 +16,9 @@
 
 package com.example.custominitializr.generator.contributor;
 
-import io.spring.initializr.generator.buildsystem.maven.MavenBuildSystem;
-import io.spring.initializr.generator.condition.ConditionalOnBuildSystem;
-import io.spring.initializr.generator.project.ProjectDescription;
+import io.spring.initializr.generator.buildsystem.Build;
 import io.spring.initializr.generator.project.ProjectGenerationConfiguration;
+import io.spring.initializr.generator.spring.build.BuildCustomizer;
 
 import org.springframework.context.annotation.Bean;
 
@@ -32,9 +31,8 @@ public class SimpleProjectGenerationConfiguration {
 	}
 
 	@Bean
-	@ConditionalOnBuildSystem(MavenBuildSystem.ID)
-	public MavenBuildProjectContributor simpleMavenBuildContributor(ProjectDescription description) {
-		return new MavenBuildProjectContributor(description);
+	public BuildCustomizer<Build> sampleBuildCustomizer() {
+		return (build) -> build.properties().version("example.version", "1.0.0.RELEASE");
 	}
 
 }
