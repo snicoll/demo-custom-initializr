@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.example.custominitializr.generator.contributor.MavenBuildProjectContributor;
 import com.example.custominitializr.generator.contributor.SimpleContributor;
 import io.spring.initializr.generator.project.DefaultProjectAssetGenerator;
 import io.spring.initializr.generator.project.ProjectAssetGenerator;
@@ -18,6 +19,8 @@ class SimpleGenerator {
 	Path generateProject(ProjectDescription description) {
 		ProjectGenerator projectGenerator = new ProjectGenerator((context) -> {
 			context.registerBean(SimpleContributor.class, SimpleContributor::new);
+			context.registerBean(MavenBuildProjectContributor.class,
+					() -> new MavenBuildProjectContributor(description));
 		});
 		ProjectAssetGenerator<Path> projectAssetGenerator = new DefaultProjectAssetGenerator(
 				(resolvedDescription) -> Paths.get("target/projects",
